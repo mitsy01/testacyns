@@ -43,9 +43,18 @@ async def get_user(user_id: int):
 
 
 async def fetch(url: str = URL):
-    async with ClientSession() as session:
+    async with ClientSession(trust_env=True) as session:
         result = await session.get(url)
         return await result.json()
+    
+
+@app.post("/delete_user/")
+async def del_user(user_id: int = Query()):
+    query = db.users.delete().where(db.users.c.id==user_id)
+    await db.database.execute(query)
+    return dict(msg="")
+    
+
 
 
 if __name__ == "__main__":
