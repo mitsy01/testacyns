@@ -48,7 +48,7 @@ async def fetch(url: str = URL):
         return await result.json()
     
 
-@app.post("/delete_user/")
+@app.delete("/delete_user/")
 async def del_user(user_id: int = Query()):
     query = db.users.delete().where(db.users.c.id==user_id)
     await db.database.execute(query)
